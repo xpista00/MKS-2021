@@ -46,22 +46,26 @@ int main(void)
 	};
 	*/
 
-	uint8_t pole[32]= {1,0,1,0,1,0,0,1,1,1,0,1,1,1,0,1,1,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0};
-
-
+	// uint8_t pole[32]= {1,0,1,0,1,0,0,1,1,1,0,1,1,1,0,1,1,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0};
+	uint32_t sekvence= 0b10101001110111011100101010000000;
+	uint32_t shift=0b10000000000000000000000000000000;
 	for(;;)
 	{
 		for( int i = 0; i < 32; i++)
 		{
-			if (pole[i]==1)
+			if ((sekvence & shift) ==1 )
 			{
 				GPIOA->BSRR = (1<<5);
 			};
 
-			if (pole[i]==0)
+			if ((sekvence & shift)==0)
 			{
 				GPIOA->BRR = (1<<5);
 			};
+
+			shift=shift>> 1;
+
+
 			for (volatile uint32_t i=0; i < 100000; i++) {};
 
 		};
