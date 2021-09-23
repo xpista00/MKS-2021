@@ -56,21 +56,21 @@ int main(void)
 			if ((sekvence & shift) ==1 )
 			{
 				GPIOA->BSRR = (1<<5);
-			};
+			}
 
-			if ((sekvence & shift)==0)
+			else if ((sekvence & shift)==0)
 			{
 				GPIOA->BRR = (1<<5);
-			};
+			}
 
-			shift=shift>> 1;
+			shift=shift >> 1;
 
 
-			for (volatile uint32_t i=0; i < 100000; i++) {};
+			for (volatile uint32_t i=0; i < 100000; i++) {}
 
-		};
+		}
 
-	};
+	}
 
 
 
