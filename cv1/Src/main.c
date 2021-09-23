@@ -27,10 +27,51 @@
 int main(void)
 {
 
-	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+	RCC->AHBENR |= RCC_AHBENR_GPIOAEN; // nastaveni pro praci s GPIO piny
+	GPIOA->MODER |= GPIO_MODER_MODER5_0; // NASTAVENI Vystupniho pinu
 
 
+	//GPIOA->BSRR = (1<<5); // nastaveni do 1
+	//// GPIOA->BRR = (1<<5); nastaveni do 0
 
     /* Loop forever */
-	for(;;);
+	/*
+	for(;;)
+	{
+		GPIOA->ODR ^= (1<<5); // prepinani toggle
+		for (volatile uint32_t i=0; i < 100000; i++) // volatile aby neoptimalizoval smycku
+		{
+
+		};
+	};
+	*/
+
+	uint8_t pole[32]= {1,0,1,0,1,0,0,1,1,1,0,1,1,1,0,1,1,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0};
+
+
+	for(;;)
+	{
+		for( int i = 0; i < 32; i++)
+		{
+			if (pole[i]==1)
+			{
+				GPIOA->BSRR = (1<<5);
+			};
+
+			if (pole[i]==0)
+			{
+				GPIOA->BRR = (1<<5);
+			};
+			for (volatile uint32_t i=0; i < 100000; i++) {};
+
+		};
+
+	};
+
+
+
+
+
+
+
 }
