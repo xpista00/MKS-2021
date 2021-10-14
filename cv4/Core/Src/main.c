@@ -190,16 +190,10 @@ int main(void)
 		 state= SHOW_VOLT;
 
 	 }
-	 if(HAL_GetTick()-last > 1000)
-	 {
-		 state=SHOW_POT;
-	 }
-
 	 if(state== SHOW_VOLT )
 	 {
 
 		 sct_value(voltage,bargraf);
-
 
 	 }
 	 else if(state== SHOW_TEMP)
@@ -210,6 +204,11 @@ int main(void)
 	 else if (state== SHOW_POT)
 	 {
 		 sct_value(cislo,bargraf);
+	 }
+
+	 if(HAL_GetTick()-last > 1000)
+	 {
+		 state=SHOW_POT;
 	 }
 
 
