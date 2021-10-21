@@ -166,7 +166,7 @@ void uart_process_command(char *cmd)
 		for (uint16_t i = 0; i < 16; i++)
 		{
 
-			printf("0x%x ",value[i]);
+			printf("0x%02x ",value[i]);
 
 			if(i == 7 ||  i == 15)
 			{
