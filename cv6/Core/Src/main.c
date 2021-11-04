@@ -40,6 +40,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 #define CONVERT_T_DELAY 750
+#define DELAY_TLAC 40
 
 /* USER CODE END PM */
 
@@ -108,11 +109,11 @@ int main(void)
   sct_init();
 
 
-/* promenne pro 1wire
- *
+//promenne pro 1wire
+
   int16_t temp_18b20;
   uint16_t temp = 0;
-*/
+
 
   uint16_t index_NTC;
 
@@ -138,9 +139,59 @@ int main(void)
 	  sct_value(temp,0);
 
 	   	*/
+	  /* zobrayeni teploty NTC
 	  index_NTC=HAL_ADC_GetValue(&hadc);
 	  HAL_Delay(CONVERT_T_DELAY);
 	  sct_value(teplota_NTC[index_NTC],0);
+	  */
+
+	  uint32_t last;
+
+	  HAL_Delay(DELAY_TLAC); // snimani tlacitek
+
+	  static enum { SHOW_NTC, SHOW_DS18B20 } state = SHOW_NTC;
+
+	  if(HAL_GetTick()-last > CONVERT_T_DELAY)
+	  {
+
+		  OWReadTemperature(&temp_18b20);
+		  OWConvertAll();
+		  temp = temp_18b20 / 10;
+
+		  index_NTC=HAL_ADC_GetValue(&hadc);
+
+	  }
+
+	  if (HAL_GPIO_ReadPin(S1_GPIO_Port,S1_Pin)==0)
+	  {
+
+		  last=HAL_GetTick();
+		  state = SHOW_DS18B20;
+	  }
+
+	  else if (HAL_GPIO_ReadPin(S2_GPIO_Port,S2_Pin)==0)
+	  {
+
+		  last=HAL_GetTick();
+		  state = SHOW_NTC;
+	  }
+
+	  if(state == SHOW_DS18B20)
+	  {
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // vypnuti led 1
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+
+
+		  sct_value(temp,0);
+	  }
+
+	  else if(state == SHOW_NTC)
+	  {
+		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // vypnuti led 2
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+
+		  sct_value(teplota_NTC[index_NTC],0);
+	  }
 
 
   }
