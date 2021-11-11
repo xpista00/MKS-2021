@@ -433,7 +433,7 @@ void StartAcceleroTask(void const * argument)
   /* USER CODE BEGIN StartAcceleroTask */
 
 	int16_t msg;
-	uint32_t last;
+	static uint32_t last;
 
 
 	// Check device ID
