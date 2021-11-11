@@ -399,18 +399,18 @@ void StartVisualTask(void const * argument)
     {
     	if(msg < -1000)
     	{
-    		HAL_GPIO_WritePin(GPIOB, LED2_Pin, GPIO_PIN_RESET); //zhasnuti ledky 2
-    		HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET); // rozsviceni ledky 1
+    		HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET); //zhasnuti ledky 2
+    		HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); // rozsviceni ledky 1
     	}
     	else if (msg > 1000)
     	{
-    		HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_RESET);
-    		HAL_GPIO_WritePin(GPIOB, LED2_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
     	}
     	else
     	{
-    		HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_RESET);
-    		HAL_GPIO_WritePin(GPIOB, LED2_Pin, GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
     	}
 
     }
