@@ -399,8 +399,8 @@ void StartVisualTask(void const * argument)
     {
     	if(msg < -1000)
     	{
-    		HAL_GPIO_WritePin(GPIOB, LED2_Pin, GPIO_PIN_RESET);
-    		HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(GPIOB, LED2_Pin, GPIO_PIN_RESET); //zhasnuti ledky 2
+    		HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET); // rozsviceni ledky 1
     	}
     	else if (msg > 1000)
     	{
@@ -479,7 +479,7 @@ void StartAcceleroTask(void const * argument)
 	{
 	 // Read acceleration data
 	  lis2dw12_acceleration_raw_get(&lis2dw12, raw_acceleration);
-	  if(HAL_GetTick()-last > 1000 )
+	  if(HAL_GetTick()-last > 1000 ) // zobrazeni na termite (pres UART) jednou za sekundu
 	  {
 		  printf("X=%d Y=%d Z=%d\n", raw_acceleration[0], raw_acceleration[1], raw_acceleration[2]);
 
@@ -488,7 +488,7 @@ void StartAcceleroTask(void const * argument)
 
 	}
 
-
+	// odeslani dat k vizualizaci (ledky) vzorkovani 50 ms
 	msg = raw_acceleration[0];
 	xQueueSend(xVisualQueueHandle, &msg, 0);
 	osDelay(50);
